@@ -1,0 +1,32 @@
+{
+    "name": "tanoconsulting/ezdbintegritybundle",
+    "type": "symfony-bundle",
+    "description": "The port of eZDBIntegrity extension to eZPlatorm 3 aka Ibexa",
+    "keywords": ["database", "ezplatform"],
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Gaetano Giunta",
+            "email": "ggiunta@tanoconsulting.com",
+            "role": "Lead Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.3|^8.0",
+        "ext-json": "*",
+        "doctrine/dbal": "^2.11|^3.0",
+        "ezsystems/ezplatform-kernel": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5.12"
+    },
+    "autoload": {
+        "psr-4": { "TanoConsulting\\eZDBIntegrityBundle\\": "" }
+    },
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/tanoconsulting"
+        }
+    ]
+}
