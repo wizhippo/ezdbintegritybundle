@@ -1,7 +1,7 @@
 {
     "name": "tanoconsulting/ezdbintegritybundle",
     "type": "symfony-bundle",
-    "description": "The port of eZDBIntegrity extension to eZPlatorm 3 aka Ibexa",
+    "description": "Validates database data and binary file storage of eZPlatorm 3 (aka Ibexa OSS/DXP) ",
     "keywords": ["database", "ezplatform"],
     "license": "GPL-2.0",
     "authors": [
@@ -13,9 +13,8 @@
     ],
     "require": {
         "php": "^7.3|^8.0",
-        "ext-json": "*",
-        "doctrine/dbal": "^2.11|^3.0",
-        "ezsystems/ezplatform-kernel": "^1.0"
+        "ezsystems/ezplatform-kernel": "^1.0",
+        "tanoconsulting/datavalidatorbundle": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5.12"
