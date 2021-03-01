@@ -1,7 +1,7 @@
 {
     "name": "tanoconsulting/ezdbintegritybundle",
     "type": "symfony-bundle",
-    "description": "Validates database data and binary file storage of eZPlatorm 3 (aka Ibexa OSS/DXP) ",
+    "description": "Validates database data and binary file storage of eZPlatform 3 (aka Ibexa OSS/DXP) ",
     "keywords": ["database", "ezplatform"],
     "license": "GPL-2.0",
     "authors": [
@@ -20,7 +20,7 @@
         "phpunit/phpunit": "^8.5.12"
     },
     "autoload": {
-        "psr-4": { "TanoConsulting\\eZDBIntegrityBundle\\": "" }
+        "psr-4": { "TanoConsulting\\eZDBIntegrityBundle\\": "src" }
     },
     "funding": [
         {
