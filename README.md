@@ -1,8 +1,18 @@
-eZ DB Integrity Extension for eZPlatform 3 / Ibexa DXP
-======================================================
+eZ DB Integrity Bundle for eZPlatform 3 / Ibexa DXP
+===================================================
 
-Goals:
-------
+*NB: Work In Progress*
 
-Allow checking integrity of data in a database (the eZ one, but any other as well).
-Allow checking integrity of the eZPublish storage files (images and binary files from content).
+Goals
+-----
+
+Allow checking integrity of data in the the eZPlatform database.
+Allow checking integrity of the eZPlatform storage files (images and binary files from content).
+
+Installation
+------------
+...
+
+Usage
+-----
+...
