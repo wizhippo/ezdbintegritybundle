@@ -4,7 +4,7 @@ namespace TanoConsulting\eZDBIntegrityBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class eZDBIntegrityBundle extends Bundle
+class TanoConsultingeZDBIntegrityBundle extends Bundle
 {
     public function getPath(): string
     {

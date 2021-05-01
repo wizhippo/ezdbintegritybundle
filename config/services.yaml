@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    TanoConsulting\eZDBIntegrityBundle\Constraints\Database\eZImageFileValidator:
+        class: TanoConsulting\eZDBIntegrityBundle\Constraints\Database\eZImageFileValidator
+        public: true
+
+    TanoConsulting\eZDBIntegrityBundle\Constraints\Database\eZBinaryFileValidator:
+        class: TanoConsulting\eZDBIntegrityBundle\Constraints\Database\eZBinaryFileValidator
+        public: true
