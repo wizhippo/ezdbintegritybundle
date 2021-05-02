@@ -2,9 +2,6 @@
 
 namespace TanoConsulting\eZDBIntegrityBundle\Constraints\Database;
 
-use TanoConsulting\DataValidatorBundle\Constraints\DatabaseConstraint;
-
-class eZImageFile extends DatabaseConstraint
+class eZImageFile extends eZBinaryBase
 {
-    static protected $defaultName = 'ezimagefile_files_';
 }

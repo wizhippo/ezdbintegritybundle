@@ -3,15 +3,14 @@
 namespace TanoConsulting\eZDBIntegrityBundle\Constraints\Database;
 
 use Doctrine\DBAL\Connection;
-use eZ\Publish\SPI\SiteAccess\ConfigProcessor;
 use eZ\Publish\Core\IO\IOConfigProvider;
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use TanoConsulting\DataValidatorBundle\Constraint;
-use TanoConsulting\DataValidatorBundle\Constraints\DatabaseValidator;
 use TanoConsulting\DataValidatorBundle\ConstraintViolation;
 use TanoConsulting\DataValidatorBundle\Context\ExecutionContextInterface;
+use TanoConsulting\DataValidatorBundle\Exception\UnexpectedTypeException;
 
-class eZBinaryFileValidator extends DatabaseValidator
+class eZBinaryFileValidator extends eZBinaryBaseValidator
 {
     protected $ioConfigProvider;
     protected $configResolver;
@@ -27,9 +26,14 @@ class eZBinaryFileValidator extends DatabaseValidator
      * @param string|Connection $value string format: 'mysql://user:secret@localhost/mydb'
      * @param Constraint $constraint
      * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws UnexpectedTypeException
      */
     public function validate($value, Constraint $constraint)
     {
+        if (!$constraint instanceof eZBinaryFile) {
+            throw new UnexpectedTypeException($constraint, eZBinaryFile::class);
+        }
+
         /** @var Connection $connection */
         $connection = $this->getConnection($value);
 
@@ -38,32 +42,42 @@ class eZBinaryFileValidator extends DatabaseValidator
 
         switch($this->context->getOperatingMode()) {
             case ExecutionContextInterface::MODE_COUNT:
-                $violationCount = 0;
+                $violationCounts = [];
                 foreach($connection->executeQuery($this->getQuery())->fetchAllAssociative() as $data) {
                     $filePath = $rootDir . '/' . $this->getFirstPartOfMimeType($data['mime_type']) . '/' . $data['filename'];
-                    /// @todo separate violations by type: missing/unreadable/unwriteable/0-size
-                    if (!is_readable($filePath) || !is_file($filePath) || !filesize($filePath)) {
-                        $violationCount++;
+                    if (($error = $this->checkFile($filePath)) !== false) {
+                        if (array_key_exists($error, $violationCounts)) {
+                            $violationCounts[$error]++;
+                        } else {
+                            $violationCounts[$error] = 1;
+                        }
                     }
                 }
-                if ($violationCount) {
-                    $this->context->addViolation(new ConstraintViolation('Missing or unreadable binary files', $violationCount, $constraint));
+                foreach ($violationCounts as $type => $count) {
+                    $this->context->addViolation(new ConstraintViolation(eZBinaryBase::$errorMessages[$type], $count, $constraint));
                 }
                 break;
 
             case ExecutionContextInterface::MODE_FETCH:
+                $violations = [];
                 foreach($connection->executeQuery($this->getQuery())->fetchAllAssociative() as $data) {
                     $filePath = $rootDir . '/' . $this->getFirstPartOfMimeType($data['mime_type']) . '/' . $data['filename'];
-                    /// @todo separate violations by type: missing/unreadable/unwriteable/0-size
-                    if (!is_readable($filePath) || !is_file($filePath) || !filesize($filePath)) {
-                        $this->context->addViolation(new ConstraintViolation($rootDir . $data['filename'], null, $constraint));
+                    if (($error = $this->checkFile($filePath)) !== false) {
+                        if (array_key_exists($error, $violations)) {
+                            $violations[$error][] = $filePath;
+                        } else {
+                            $violations[$error] = [$filePath];
+                        }
+                    }
+                    foreach ($violations as $type => $paths) {
+                        $this->context->addViolation(new ConstraintViolation(eZBinaryBase::$errorMessages[$type], $paths, $constraint));
                     }
                 }
                 break;
 
             case ExecutionContextInterface::MODE_DRY_RUN:
                 /// @todo simplify visualization and move this to the constraint itself
-                $this->context->addViolation(new ConstraintViolation('Checks missing or unreadable binary files', null, $constraint));
+                $this->context->addViolation(new ConstraintViolation('Checks missing, unreadable or empty binary files', null, $constraint));
                 break;
         }
     }
