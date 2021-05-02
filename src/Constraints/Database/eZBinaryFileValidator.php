@@ -14,7 +14,6 @@ class eZBinaryFileValidator extends eZBinaryBaseValidator
 {
     protected $ioConfigProvider;
     protected $configResolver;
-    protected $configProcessor;
 
     public function __construct(IOConfigProvider $ioConfigProvider, ConfigResolverInterface $configResolver)
     {
@@ -63,6 +62,7 @@ class eZBinaryFileValidator extends eZBinaryBaseValidator
                 foreach($connection->executeQuery($this->getQuery())->fetchAllAssociative() as $data) {
                     $filePath = $rootDir . '/' . $this->getFirstPartOfMimeType($data['mime_type']) . '/' . $data['filename'];
                     if (($error = $this->checkFile($filePath)) !== false) {
+                        /// @todo we should probably save as violation value the data from the db column
                         if (array_key_exists($error, $violations)) {
                             $violations[$error][] = $filePath;
                         } else {

@@ -59,6 +59,7 @@ class eZImageFileValidator extends eZBinaryBaseValidator
                 foreach($connection->executeQuery($this->getQuery())->fetchAllAssociative() as $data) {
                     $filePath = $rootDir . $data['filepath'];
                     if (($error = $this->checkFile($filePath)) !== false) {
+                        /// @todo we should probably save as violation value the data from the db column
                         if (array_key_exists($error, $violations)) {
                             $violations[$error][] = $filePath;
                         } else {
