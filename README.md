@@ -16,7 +16,7 @@ Allow checking integrity of the eZPlatform storage files (images, media and bina
 Installation
 ------------
 
-Install via Composer
+Install via Composer: `composer require "tanoconsulting/ezdbintegritybundle:1.0.0-beta1" "tanoconsulting/datavalidatorbundle >=1.0.0-BETA1"`
 
 Getting started
 ---------------
