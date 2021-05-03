@@ -23,6 +23,8 @@ class eZImageFileValidator extends eZBinaryBaseValidator
      * @param string|Connection $value string format: 'mysql://user:secret@localhost/mydb'
      * @param eZImageFile $constraint
      * @throws \Doctrine\DBAL\Driver\Exception
+     *
+     * @todo add check: all image alias files without original file (maybe use a separate validator) ?
      */
     public function validate($value, Constraint $constraint)
     {
@@ -33,7 +35,7 @@ class eZImageFileValidator extends eZBinaryBaseValidator
         /** @var Connection $connection */
         $connection = $this->getConnection($value);
 
-        // @todo check if the 'images' part coudl actually be overridden
+        // @todo check if the 'images' part could actually be overridden
         $rootDir = $this->ioConfigProvider->getRootDir() . '/images';
         $prefix = ':^' . preg_replace(':' . $this->ioConfigProvider->getUrlPrefix() . '$:', '', $this->ioConfigProvider->getRootDir()) . ':';
         switch($this->context->getOperatingMode()) {
@@ -42,8 +44,8 @@ class eZImageFileValidator extends eZBinaryBaseValidator
                 $violationCount = 0;
                 foreach($finder->in($rootDir)->notPath('/_aliases/') as $file) {
                     $filePath = $file->getPath() . '/' . $file->getFilename();
-                    $filePath = preg_replace($prefix, '', $filePath);
-                    if (!$this->checkFile($filePath, $connection)) {
+                    $fileSubPath = preg_replace($prefix, '', $filePath);
+                    if (!$this->checkFile($fileSubPath, $connection)) {
                         $violationCount++;
                     }
                 }
@@ -57,8 +59,8 @@ class eZImageFileValidator extends eZBinaryBaseValidator
                 $violations = [];
                 foreach($finder->in($rootDir)->notPath('/_aliases/') as $file) {
                     $filePath = $file->getPath() . '/' . $file->getFilename();
-                    $filePath = preg_replace($prefix, '', $filePath);
-                    if (!$this->checkFile($filePath, $connection)) {
+                    $fileSubPath = preg_replace($prefix, '', $filePath);
+                    if (!$this->checkFile($fileSubPath, $connection)) {
                         $violations[] = $filePath;
                     }
                 }

@@ -3,6 +3,9 @@ services:
         autowire: true
         autoconfigure: true
 
+    TanoConsulting\eZDBIntegrityBundle\Command\:
+        resource: '../src/Command'
+
     TanoConsulting\eZDBIntegrityBundle\Constraints\Database\eZBinaryFileValidator:
         class: TanoConsulting\eZDBIntegrityBundle\Constraints\Database\eZBinaryFileValidator
         public: true
