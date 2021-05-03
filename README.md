@@ -13,10 +13,15 @@ Allow checking integrity of data in the eZPlatform database:
 
 Allow checking integrity of the eZPlatform storage files (images, media and binary files from content).
 
+Requirements
+------------
+
+eZPlatform 3, running on MySQL/MariaDB
+
 Installation
 ------------
 
-Install via Composer: `composer require "tanoconsulting/ezdbintegritybundle:1.0.0-beta1" "tanoconsulting/datavalidatorbundle >=1.0.0-BETA1"`
+Install via Composer: `composer require "tanoconsulting/ezdbintegritybundle:1.0.0-beta2" "tanoconsulting/datavalidatorbundle >=1.0.0-BETA1"`
 
 Getting started
 ---------------
@@ -32,6 +37,14 @@ All this bundle does is to add some cli commands. To get you started, try runnin
     php bin/console ezdbintegrity:check:storage
 
     php bin/console ezdbintegrity:check:storage --check-db-orphans
+
+Known issues
+------------
+
+- To avoid excessive memory usage from large queries, when running Symfony in "debug mode", such as commonly for "dev" envs,
+    add the `--no-debug` option to your commands. If possible, use a non-debug Symfony env.
+
+- If you still get an 'allowed memory size' fatal error, run the commands with `php -d memory_limit=-1`.
 
 Still to be done
 ----------------

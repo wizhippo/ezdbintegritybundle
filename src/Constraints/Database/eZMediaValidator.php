@@ -7,6 +7,8 @@ use TanoConsulting\DataValidatorBundle\Exception\UnexpectedTypeException;
 
 class eZMediaValidator extends eZBinaryFileValidator
 {
+    protected static $tableName = 'ezmedia';
+
     /**
      * @param Constraint $constraint
      * @throws UnexpectedTypeException
@@ -16,13 +18,5 @@ class eZMediaValidator extends eZBinaryFileValidator
         if (!$constraint instanceof eZMedia) {
             throw new UnexpectedTypeException($constraint, eZMedia::class);
         }
-    }
-
-    /**
-     * @return string
-     */
-    protected function getQuery()
-    {
-        return 'SELECT DISTINCT filename, mime_type FROM ezmedia';
     }
 }

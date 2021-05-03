@@ -81,14 +81,16 @@ class eZBinaryFileAndMediaValidator extends eZBinaryBaseValidator
      */
     protected function checkFile($filePath, $connection)
     {
-        $parameters = [basename($filePath), basename(dirname($filePath)) . '/%'];
+        $parameters = [$this->quoteForLike(basename($filePath), ':'), $this->quoteForLike(basename(dirname($filePath)), ':') . '/%'];
 
-        $query = "SELECT COUNT(*) AS found FROM ezbinaryfile WHERE filename = ? AND mime_type LIKE ?";
+        $query = "SELECT COUNT(*) AS found FROM ezbinaryfile WHERE filename = ? AND mime_type LIKE ? ESCAPE ':'";
         $data = $connection->executeQuery($query, $parameters)->fetchAllAssociative();
         if ($data[0]['found'] == 0) {
-            $query = "SELECT COUNT(*) AS found FROM ezmedia WHERE filename = ? AND mime_type LIKE ?";
+            $query = "SELECT COUNT(*) AS found FROM ezmedia WHERE filename = ? AND mime_type LIKE ? ESCAPE ':'";
             $data = $connection->executeQuery($query, $parameters)->fetchAllAssociative();
         }
+
+        /// @todo if no data is found, scan the ezcontentobject_attribute table, just in case
 
         return ($data[0]['found'] > 0);
     }

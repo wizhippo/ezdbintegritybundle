@@ -85,6 +85,7 @@ class eZImageFileValidator extends eZBinaryBaseValidator
         $query = "SELECT COUNT(*) AS found FROM ezimagefile WHERE filepath = ?";
         $parameters = [$filePath];
         $data = $connection->executeQuery($query, $parameters)->fetchAllAssociative();
+        /// @todo if no data is found, scan the ezcontentobject_attribute table, just in case
         return ($data[0]['found'] > 0);
     }
 }

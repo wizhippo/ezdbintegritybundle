@@ -3,7 +3,9 @@
 namespace TanoConsulting\eZDBIntegrityBundle\Command;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use TanoConsulting\DataValidatorBundle\Command\ValidateCommand;
@@ -35,6 +37,19 @@ class CheckStorageCommand extends ValidateCommand
             ->addoption('check-db-orphans', null, InputOption::VALUE_NONE, 'Reverses the check: look for files present in the database but not on disk')
             //->addOption('config-file', null, InputOption::VALUE_REQUIRED, 'A yaml/json file defining the constraints to check. If omitted: load them from config/services')
         ;
+    }
+
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     * @throws \Exception
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        /// @todo inject the verbosity of $output into the validator services
+
+        return parent::execute($input, $output);
     }
 
     protected function getValidatorBuilder($input)
