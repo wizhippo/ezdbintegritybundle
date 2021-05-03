@@ -11,8 +11,12 @@ services:
         class: TanoConsulting\eZDBIntegrityBundle\Constraints\Database\eZImageFileValidator
         public: true
 
-    TanoConsulting\eZDBIntegrityBundle\Constraints\Filesystem\eZBinaryFileValidator:
-        class: TanoConsulting\eZDBIntegrityBundle\Constraints\Filesystem\eZBinaryFileValidator
+    TanoConsulting\eZDBIntegrityBundle\Constraints\Database\eZMediaValidator:
+        class: TanoConsulting\eZDBIntegrityBundle\Constraints\Database\eZMediaValidator
+        public: true
+
+    TanoConsulting\eZDBIntegrityBundle\Constraints\Filesystem\eZBinaryFileAndMediaValidator:
+        class: TanoConsulting\eZDBIntegrityBundle\Constraints\Filesystem\eZBinaryFileAndMediaValidator
         public: true
 
     TanoConsulting\eZDBIntegrityBundle\Constraints\Filesystem\eZImageFileValidator:

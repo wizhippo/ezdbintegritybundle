@@ -22,4 +22,14 @@ abstract class eZBinaryBaseValidator extends FileValidator
 
         return $dsnOrConnection;
     }
+
+    protected function getDescriptionMessage(eZBinaryBase $constraint)
+    {
+        return $constraint::$descriptionMessage;
+    }
+
+    protected function getErrorMessage(eZBinaryBase $constraint)
+    {
+        return $constraint::$errorMessage;
+    }
 }

@@ -7,7 +7,7 @@ use TanoConsulting\DataValidatorBundle\Constraints\DatabaseValidator;
 abstract class eZBinaryBaseValidator extends DatabaseValidator
 {
     /**
-     * Checks validity of content-attached files
+     * Checks validity of (content-attached) files
      * @param string $filePath
      * @return false|string false if all is ok, or an error code
      * @todo should we test for is_writeable instead of is_readable ?
@@ -25,5 +25,10 @@ abstract class eZBinaryBaseValidator extends DatabaseValidator
         }
 
         return false;
+    }
+
+    protected function getMessage(eZBinaryBase $constraint)
+    {
+        return $constraint::$descriptionMessage;
     }
 }

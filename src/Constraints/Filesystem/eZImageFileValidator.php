@@ -48,7 +48,7 @@ class eZImageFileValidator extends eZBinaryBaseValidator
                     }
                 }
                 if ($violationCount) {
-                    $this->context->addViolation(new ConstraintViolation('Image files missing from the db', $violationCount, $constraint));
+                    $this->context->addViolation(new ConstraintViolation($this->getErrorMessage($constraint), $violationCount, $constraint));
                 }
                 break;
 
@@ -63,13 +63,12 @@ class eZImageFileValidator extends eZBinaryBaseValidator
                     }
                 }
                 if ($violations) {
-                    $this->context->addViolation(new ConstraintViolation('Image files missing from the db', $violations, $constraint));
+                    $this->context->addViolation(new ConstraintViolation($this->getErrorMessage($constraint), $violations, $constraint));
                 }
                 break;
 
             case ExecutionContextInterface::MODE_DRY_RUN:
-                /// @todo simplify visualization and move this to the constraint itself
-                $this->context->addViolation(new ConstraintViolation('Checks image files missing from the db', null, $constraint));
+                $this->context->addViolation(new ConstraintViolation($this->getDescriptionMessage($constraint), null, $constraint));
                 break;
         }
     }

@@ -29,9 +29,7 @@ class eZBinaryFileValidator extends eZBinaryBaseValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        if (!$constraint instanceof eZBinaryFile) {
-            throw new UnexpectedTypeException($constraint, eZBinaryFile::class);
-        }
+        $this->checkConstraint($constraint);
 
         /** @var Connection $connection */
         $connection = $this->getConnection($value);
@@ -76,17 +74,34 @@ class eZBinaryFileValidator extends eZBinaryBaseValidator
                 break;
 
             case ExecutionContextInterface::MODE_DRY_RUN:
-                /// @todo simplify visualization and move this to the constraint itself
-                $this->context->addViolation(new ConstraintViolation('Checks missing, unreadable or empty binary files', null, $constraint));
+                $this->context->addViolation(new ConstraintViolation($this->getMessage($constraint), null, $constraint));
                 break;
         }
     }
 
+    /**
+     * @param Constraint $constraint
+     * @throws UnexpectedTypeException
+     */
+    protected function checkConstraint(Constraint $constraint)
+    {
+        if (!$constraint instanceof eZBinaryFile) {
+            throw new UnexpectedTypeException($constraint, eZBinaryFile::class);
+        }
+    }
+
+    /**
+     * @return string
+     */
     protected function getQuery()
     {
         return 'SELECT DISTINCT filename, mime_type FROM ezbinaryfile';
     }
 
+    /**
+     * @param string $mimeType
+     * @return string
+     */
     protected function getFirstPartOfMimeType($mimeType)
     {
         return substr($mimeType, 0, strpos($mimeType, '/'));

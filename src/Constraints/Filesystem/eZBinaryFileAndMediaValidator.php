@@ -10,7 +10,7 @@ use TanoConsulting\DataValidatorBundle\ConstraintViolation;
 use TanoConsulting\DataValidatorBundle\Context\ExecutionContextInterface;
 use TanoConsulting\DataValidatorBundle\Exception\UnexpectedTypeException;
 
-class eZBinaryFileValidator extends eZBinaryBaseValidator
+class eZBinaryFileAndMediaValidator extends eZBinaryBaseValidator
 {
     protected $ioConfigProvider;
     protected $configResolver;
@@ -24,13 +24,13 @@ class eZBinaryFileValidator extends eZBinaryBaseValidator
     /**
      * Unlike other FileValidators, we get a DNS as value instead of a path
      * @param string|Connection $value string format: 'mysql://user:secret@localhost/mydb'
-     * @param eZBinaryFile $constraint
+     * @param eZBinaryFileAndMedia $constraint
      * @throws \Doctrine\DBAL\Driver\Exception
      */
     public function validate($value, Constraint $constraint)
     {
-        if (!$constraint instanceof eZBinaryFile) {
-            throw new UnexpectedTypeException($constraint, eZBinaryFile::class);
+        if (!$constraint instanceof eZBinaryFileAndMedia) {
+            throw new UnexpectedTypeException($constraint, eZBinaryFileAndMedia::class);
         }
 
         /** @var Connection $connection */
@@ -50,7 +50,7 @@ class eZBinaryFileValidator extends eZBinaryBaseValidator
                     }
                 }
                 if ($violationCount) {
-                    $this->context->addViolation(new ConstraintViolation('Binary files missing from the db', $violationCount, $constraint));
+                    $this->context->addViolation(new ConstraintViolation($this->getErrorMessage($constraint), $violationCount, $constraint));
                 }
                 break;
 
@@ -64,13 +64,12 @@ class eZBinaryFileValidator extends eZBinaryBaseValidator
                     }
                 }
                 if ($violations) {
-                    $this->context->addViolation(new ConstraintViolation('Binary files missing from the db', $violations, $constraint));
+                    $this->context->addViolation(new ConstraintViolation($this->getErrorMessage($constraint), $violations, $constraint));
                 }
                 break;
 
             case ExecutionContextInterface::MODE_DRY_RUN:
-                /// @todo simplify visualization and move this to the constraint itself
-                $this->context->addViolation(new ConstraintViolation('Checks binary files missing from the db', null, $constraint));
+                $this->context->addViolation(new ConstraintViolation($this->getDescriptionMessage($constraint), null, $constraint));
                 break;
         }
     }
@@ -78,13 +77,19 @@ class eZBinaryFileValidator extends eZBinaryBaseValidator
     /**
      * @param string $filePath
      * @param Connection $connection
-     * @return bool
+     * @return bool true if file is found in the db
      */
     protected function checkFile($filePath, $connection)
     {
-        $query = "SELECT COUNT(*) AS found FROM ezbinaryfile WHERE filename = ? AND mime_type LIKE ?";
         $parameters = [basename($filePath), basename(dirname($filePath)) . '/%'];
+
+        $query = "SELECT COUNT(*) AS found FROM ezbinaryfile WHERE filename = ? AND mime_type LIKE ?";
         $data = $connection->executeQuery($query, $parameters)->fetchAllAssociative();
+        if ($data[0]['found'] == 0) {
+            $query = "SELECT COUNT(*) AS found FROM ezmedia WHERE filename = ? AND mime_type LIKE ?";
+            $data = $connection->executeQuery($query, $parameters)->fetchAllAssociative();
+        }
+
         return ($data[0]['found'] > 0);
     }
 }
