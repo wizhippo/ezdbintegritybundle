@@ -1,0 +1,7 @@
+constraints:
+    -
+        TanoConsulting\eZDBIntegrityBundle\Constraints\Database\eZImageFile: []
+    -
+        TanoConsulting\eZDBIntegrityBundle\Constraints\Database\eZBinaryFile: []
+    -
+        TanoConsulting\eZDBIntegrityBundle\Constraints\Database\eZMedia: []

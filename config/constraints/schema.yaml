@@ -1,0 +1,1691 @@
+# This set of DB constraints should be valid for both eZPlatform 2.5 and Ibexa 3.0 .. 3.3, even though some tables
+# were dropped in 3.0
+
+constraints:
+    -
+        ForeignKey:
+            child:
+                ezapprove_items: [collaboration_id]
+            parent:
+                ezcollab_item: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezapprove_items: [workflow_process_id]
+            parent:
+                ezworkflow_process: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezbasket: [order_id]
+            parent:
+                ezorder: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezbasket: [productcollection_id]
+            parent:
+                ezproductcollection: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezbasket: [session_id]
+            parent:
+                ezsession: [session_key]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezbinaryfile: [contentobject_attribute_id, version]
+            parent:
+                ezcontentobject_attribute: [id, version]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcobj_state: [group_id]
+            parent:
+                ezcobj_state_group: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcobj_state_group_language: [contentobject_state_group_id]
+            parent:
+                ezcobj_state_group: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcobj_state_language: [contentobject_state_id]
+            parent:
+                ezcobj_state: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcobj_state_language: [contentobject_state_id]
+            parent:
+                ezcobj_state: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcobj_state_link: [contentobject_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcobj_state_link: [contentobject_state_id]
+            parent:
+                ezcobj_state: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcollab_group: [parent_group_id]
+            parent:
+                ezcollab_group: [id]
+            except: 'ezcollab_group.parent_group_id <> 0'
+    -
+        ForeignKey:
+            child:
+                ezcollab_group: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcollab_item: [creator_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcollab_item_group_link: [collaboration_id]
+            parent:
+                ezcollab_item: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcollab_item_group_link: [group_id]
+            parent:
+                ezcollab_group: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcollab_item_group_link: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcollab_item_message_link: [collaboration_id]
+            parent:
+                ezcollab_item: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcollab_item_message_link: [message_id]
+            parent:
+                ezcollab_simple_message: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcollab_item_message_link: [participant_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcollab_item_participant_link: [collaboration_id]
+            parent:
+                ezcollab_item: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcollab_item_participant_link: [participant_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcollab_item_status: [collaboration_id]
+            parent:
+                ezcollab_item: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcollab_item_status: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcollab_notification_rule: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcollab_profile: [main_group]
+            parent:
+                ezcollab_group: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcollab_profile: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcollab_simple_message: [creator_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcomment: [contentobject_id]
+            parent:
+                ':ezcontentobject': [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcomment: [language_id]
+            parent:
+                ezcontentlanguage: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcomment: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcomment_notification: [comment_id]
+            parent:
+                ezcomment: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcomment_notification: [contentobject_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcomment_notification: [language_id]
+            parent:
+                ezcontentlanguage: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcomment_subscriber: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcomment_subscription: [content_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcomment_subscription: [subscriber_id]
+            parent:
+                ezcomment_subscriber: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcomment_subscription: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentbrowsebookmark: [node_id]
+            parent:
+                ezcontentobject_tree: [node_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentbrowsebookmark: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentbrowserecent: [node_id]
+            parent:
+                ezcontentobject_tree: [node_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentbrowserecent: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentclass: [creator_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentclass: [initial_language_id]
+            parent:
+                ezcontent_language: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentclass: [modifier_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentclass_attribute: [contentclass_id, version]
+            parent:
+                ezcontentclass: [id, version]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentclass_classgroup: [contentclass_id, contentclass_version]
+            parent:
+                ezcontentclass: [id, version]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentclassgroup: [creator_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentclassgroup: [modifier_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentclass_name: [contentclass_id]
+            parent:
+                ezcontentclass: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentclass_name: [language_locale]
+            parent:
+                ezcontent_language: [locale]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject: [contentclass_id]
+            parent:
+                ezcontentclass: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject: [id]
+            parent:
+                ezcontentobject_trash: [contentobject_id]
+            except: 'status = 2'
+    -
+        ForeignKey:
+            child:
+                ezcontentobject: [id]
+            parent:
+                ezcontentobject_tree: [contentobject_id]
+            except: 'status = 1'
+    -
+        ForeignKey:
+            child:
+                ezcontentobject: [id]
+            parent:
+                ezcontentobject_version: [contentobject_id]
+            except: 'ezcontentobject.status = 1 AND ezcontentobject_version.status = 1'
+    -
+        ForeignKey:
+            child:
+                ezcontentobject: [id, current_version]
+            parent:
+                ezcontentobject_version: [contentobject_id, version]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject: [initial_language_id]
+            parent:
+                ezcontent_language: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject: [owner_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject: [section_id]
+            parent:
+                ezsection: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_attribute: [contentclassattribute_id]
+            parent:
+                ezcontentclass_attribute: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_attribute: [contentobject_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_attribute: [contentobject_id, version]
+            parent:
+                ezcontentobject_version: [contentobject_id, version]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_attribute: [language_code]
+            parent:
+                ezcontent_language: [locale]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_link: [from_contentobject_id]
+            parent:
+                contentobject_id: [ezcontentobject]
+            except: id
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_link: [from_contentobject_id, from_contentobject_version]
+            parent:
+                ezcontentobject_version: [contentobject_id, version]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_link: [to_contentobject_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_link: [contentclassattribute_id]
+            parent:
+                ezcontentclass_attribute: [id]
+            except: 'ezcontentobject_link.contentclassattribute_id <> 0'
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_name: [contentobject_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_name: [contentobject_id, content_version]
+            parent:
+                ezcontentobject_version: [contentobject_id, version]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_name: [content_translation]
+            parent:
+                ezcontentlanguage: [locale]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_name: [real_translation]
+            parent:
+                ezcontentlanguage: [locale]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_trash: [contentobject_id]
+            parent:
+                ezcontentobject: [id]
+            except: 'status = 2'
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_trash: [contentobject_id, contentobject_version]
+            parent:
+                ezcontentobject_version: [contentobject_id, version]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_tree: [contentobject_id]
+            parent:
+                ezcontentobject: [id]
+            except: 'node_id <> 1 and status = 1'
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_tree: [main_node_id]
+            parent:
+                ezcontentobject_tree: [node_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_tree: [parent_node_id]
+            parent:
+                ezcontentobject_tree: [node_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_version: [contentobject_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_version: [creator_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_version: [initial_language_id]
+            parent:
+                ezcontent_language: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_version: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: 'user_id <> 0'
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_version: [contentobject_id, version]
+            parent:
+                ezcontentobject_attribute: [contentobject_id, version]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentobject_version: [contentobject_id, version]
+            parent:
+                ezcontentobject_name: [contentobject_id, content_version]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezcontentstaging_event_node: [event_id]
+            parent:
+                ezcontentstaging_event: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezdiscountsubrule: [discountrule_id]
+            parent:
+                ezdiscountrule: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezdiscountsubrule_value: [discountsubrule_id]
+            parent:
+                ezdiscountsubrule: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezenumobjectvalue: [contentobject_attribute_id, contentobject_attribute_version]
+            parent:
+                ezcontentobject_attribute: [id, version]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezenumvalue: [contentclass_attribute_id, contentclass_attribute_version]
+            parent:
+                ezcontentclass_attribute: [id, version]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezfind_elevate_configuration: [contentobject_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezfind_elevate_configuration: [language_code]
+            parent:
+                ezcontentlanguage: [locale]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezforgot_password: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezgmaplocation: [contentobject_attribute_id, contentobject_version]
+            parent:
+                ezcontentobject_attribute: [id, version]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezimagefile: [contentobject_attribute_id]
+            parent:
+                ezcontentobject_attribute: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezinfocollection: [contentobject_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezinfocollection: [creator_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezinfocollection_attribute: [contentclass_attribute_id]
+            parent:
+                ezcontentclass_attribute: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezinfocollection_attribute: [contentobject_attribute_id]
+            parent:
+                ezcontentobject_attribute: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezinfocollection_attribute: [contentobject_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezinfocollection_attribute: [informationcollection_id]
+            parent:
+                ezinfocollection: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezisbn_registrant_range: [isbn_group_id]
+            parent:
+                ezisbn_group: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezkeyword_attribute_link: [keyword_id]
+            parent:
+                ezkeyword: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezkeyword_attribute_link: [objectattribute_id]
+            parent:
+                ezcontentobject_attribute: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezkeyword: [class_id]
+            parent:
+                ezcontentclass: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezm_block: [node_id]
+            parent:
+                ezcontentobject_tree: [node_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezm_block: [overflow_id]
+            parent:
+                ezm_block: [id]
+            except: 'ezm_block.overflow_id <> '''''
+    -
+        ForeignKey:
+            child:
+                ezm_pool: [block_id]
+            parent:
+                ezm_block: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezm_pool: [moved_to]
+            parent:
+                ezm_block: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezm_pool: [object_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezm_pool: [node_id]
+            parent:
+                ezcontentobject_tree: [node_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezmedia: [contentobject_attribute_id, version]
+            parent:
+                ezcontentobject_attribute: [id, version]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezmultipricedata: [contentobject_attr_id, contentobject_attr_version]
+            parent:
+                ezcontentobject_attribute: [id, version]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezmultivariate_test_item: [object_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezmultivariate_test_item: [scenario_id]
+            parent:
+                ezmultivariate_test_scenario: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezmultivariate_test_scenario: [node_id]
+            parent:
+                ezcontentobject_tree: [node_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                eznode_assignment: [contentobject_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                eznode_assignment: [contentobject_id, contentobject_version]
+            parent:
+                ezcontentobject_version: [contentobject_id, version]
+            except: null
+    -
+        ForeignKey:
+            child:
+                eznode_assignment: [parent_node]
+            parent:
+                ezcontentobject_tree: [node_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                eznotificationcollection: [event_id]
+            parent:
+                eznotificationevent: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                eznotificationcollection_item: [collection_id]
+            parent:
+                eznotificationcollection: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                eznotificationcollection_item: [event_id]
+            parent:
+                eznotificationevent: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezoperation_memento: [main_key]
+            parent:
+                ezoperation_memento: [memento_key]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezorder: [productcollection_id]
+            parent:
+                ezproductcollection: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezorder: [status_id]
+            parent:
+                ezorder_status: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezorder: [status_modifier_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezorder: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezorder_item: [order_id]
+            parent:
+                ezorder: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezorder_status_history: [modifier_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezorder_status_history: [order_id]
+            parent:
+                ezorder: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezorder_status_history: [status_id]
+            parent:
+                ezorder_status: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezpaymentobject: [order_id]
+            parent:
+                ezorder: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezpaymentobject: [workflowprocess_id]
+            parent:
+                ezworkflow_process: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezpdf_export: [creator_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezpdf_export: [modifier_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezpdf_export: [source_node_id]
+            parent:
+                ezcontentobject_tree: [node_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezpolicy: [role_id]
+            parent:
+                ezrole: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezpolicy_limitation: [policy_id]
+            parent:
+                ezpolicy: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezpolicy_limitation_value: [limitation_id]
+            parent:
+                ezpolicy_limitation: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezpreferences: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezprest_authcode: [client_id]
+            parent:
+                ezprest_clients: [client_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezprest_authcode: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezprest_authorized_clients: [rest_client_id]
+            parent:
+                ezprest_clients: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezprest_authorized_clients: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezprest_clients: [owner_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezprest_token: [client_id]
+            parent:
+                ezprest_clients: [client_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezproductcollection_item: [contentobject_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezproductcollection_item: [productcollection_id]
+            parent:
+                ezproductcollection: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezproductcollection_item_opt: [item_id]
+            parent:
+                ezproductcollection_item: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezproductcollection_item_opt: [object_attribute_id]
+            parent:
+                ezcontentobject_attribute: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezproductcollection_item_opt: [option_item_id]
+            parent:
+                ezproductcollection_item_opt: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezpublishingqueueprocesses: [ezcontentobject_version_id]
+            parent:
+                ezcontentobject_version: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezrss_export: [modifier_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezrss_export: [creator_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezrss_export: [modifier_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezrss_export_item: [class_id]
+            parent:
+                ezcontentclass: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezrss_export_item: [rssexport_id]
+            parent:
+                ezrss_export: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezrss_export_item: [source_node_id]
+            parent:
+                ezcontentobject_tree: [node_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezrss_import: [class_id]
+            parent:
+                ezcontentclass: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezrss_import: [creator_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezrss_import: [destination_node_id]
+            parent:
+                ezcontentobject_tree: [node_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezrss_import: [modifier_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezrss_import: [object_owner_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezscheduled_script: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezsearch_object_word_link: [contentobject_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezsearch_object_word_link: [contentclass_id]
+            parent:
+                ezcontentclass: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezsearch_object_word_link: [section_id]
+            parent:
+                ezsection: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezsession: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezstarrating: [contentobject_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezstarrating: [contentobject_attribute_id]
+            parent:
+                ezcontentobject_attribute: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezstarrating_data: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezstarrating_data: [contentobject_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezstarrating_data: [contentobject_attribute_id]
+            parent:
+                ezcontentobject_attribute: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezsubtree_notification_rule: [node_id]
+            parent:
+                ezcontentobject_tree: [node_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezsubtree_notification_rule: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezsurvey: [contentobject_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezsurvey: ['contentobjectattribute_id[]']
+            parent:
+                ezcontentobject_attribute: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezsurveymetadata: [result_id]
+            parent:
+                ezsurveyresult: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezsurveyquestion: [survey_id]
+            parent:
+                ezsurvey: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezsurveyquestionmetadata: [question_id]
+            parent:
+                ezsurveyquestion: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezsurveyquestionmetadata: [result_id]
+            parent:
+                ezsurveyresult: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezsurveyquestionresult: [question_id]
+            parent:
+                ezsurveyquestion: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezsurveyquestionresult: [result_id]
+            parent:
+                ezsurveyresult: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezsurveyrelatedconfig: [contentclass_id]
+            parent:
+                ezcontentclass: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezsurveyrelatedconfig: [node_id]
+            parent:
+                ezcontentobject_tree: [node_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezsurveyresult: [survey_id]
+            parent:
+                ezsurvey: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezsurveyresult: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                eztags_attribute_link: [keyword_id]
+            parent:
+                eztags: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                eztags_attribute_link: [objectattribute_id, objectattribute_version]
+            parent:
+                ezcontentobject_attribute: [id, version]
+            except: null
+    -
+        ForeignKey:
+            child:
+                eztipafriend_counter: [node_id]
+            parent:
+                ezcontentobject_tree: [node_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                eztrigger: [workflow_id]
+            parent:
+                ezworkflow: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezurl_object_link: [contentobject_attribute_id, contentobject_attribute_version]
+            parent:
+                ezcontentobject_attribute: [id, version]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezurl_object_link: [url_id]
+            parent:
+                ezurl: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezuser: [contentobject_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezuser_accountkey: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezuser_discountrule: [contentobject_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezuser_discountrule: [discountrule_id]
+            parent:
+                ezdiscountrule: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezuser_role: [role_id]
+            parent:
+                ezrole: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezuser_role: [contentobject_id]
+            parent:
+                ezcontentobject_tree: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezuser_setting: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezuservisit: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezvatrule: [vat_type]
+            parent:
+                ezvattype: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezvatrule_product_category: [vatrule_id]
+            parent:
+                ezvatrule: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezvatrule_product_category: [product_category_id]
+            parent:
+                ezproductcategory: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezview_counter: [node_id]
+            parent:
+                ezcontentobject_tree: [node_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezwaituntildatevalue: [contentclass_attribute_id]
+            parent:
+                ezcontentclass_attribute: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezwaituntildatevalue: [contentclass_id]
+            parent:
+                ezcontentclass: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezwaituntildatevalue: [workflow_event_id, workflow_event_version]
+            parent:
+                ezworkflow_event: [id, version]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezwishlist: [productcollection_id]
+            parent:
+                ezproductcollection: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezwishlist: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezworkflow: [creator_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezworkflow: [modifier_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezworkflow_assign: [node_id]
+            parent:
+                ezcontentobject_tree: [node_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezworkflow_assign: [workflow_id]
+            parent:
+                ezworkflow: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezworkflow_event: [workflow_id]
+            parent:
+                ezworkflow: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezworkflow_group: [creator_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezworkflow_group: [modifier_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezworkflow_group_link: [group_id]
+            parent:
+                ezworkflow_group: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezworkflow_group_link: [workflow_id]
+            parent:
+                ezworkflow: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezworkflow_process: [event_id]
+            parent:
+                ezworkflow_event: [id]
+            except: 'ezworkflow_event.version = 0'
+    -
+        ForeignKey:
+            child:
+                ezworkflow_process: [last_event_id]
+            parent:
+                ezworkflow_event: [id]
+            except: 'ezworkflow_event.version = 0'
+    -
+        ForeignKey:
+            child:
+                ezworkflow_process: [memento_key]
+            parent:
+                ezoperation_memento: [memento_key]
+            except: 'ezworkflow_process.memento_key <> '''''
+    -
+        ForeignKey:
+            child:
+                ezworkflow_process: [node_id]
+            parent:
+                ezcontentobject_tree: [node_id]
+            except: 'ezworkflow_process.node_id IS NOT NULL AND ezworkflow_process.node_id <> 0'
+    -
+        ForeignKey:
+            child:
+                ezworkflow_process: [user_id]
+            parent:
+                ezuser: [contentobject_id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezworkflow_process: [workflow_id]
+            parent:
+                ezworkflow: [id]
+            except: null
+    -
+        ForeignKey:
+            child:
+                ezworkflow_process: [content_id, content_version]
+            parent:
+                ezcontentobject_version: [contentobject_id, version]
+            except: 'ezworkflow_process.content_id IS NOT NULL AND ezworkflow_process.content_id <> 0'
+    -
+        ForeignKey:
+            child:
+                ezx_mbpaex: [contentobject_id]
+            parent:
+                ezcontentobject: [id]
+            except: null
+    -
+        Query:
+            name: sections_with_same_identifier
+            sql: 'SELECT identifier, COUNT(*) AS identical_identifiers FROM ezsection GROUP BY identifier HAVING COUNT(*) > 1'
+    -
+        Query:
+            name: classes_with_same_identifier
+            sql: 'SELECT identifier, COUNT(*) AS identical_identifiers FROM ezcontentclass WHERE version = 0 GROUP BY identifier HAVING COUNT(*) > 1'
+    -
+        Query:
+            name: classes_with_double_attributes
+            sql: 'SELECT contentclass_id, identifier, COUNT(*) AS identical_identifiers FROM ezcontentclass_attribute WHERE version = 0 GROUP BY identifier, contentclass_id HAVING COUNT(*) > 1'
+    -
+        Query:
+            name: objects_with_many_published_versions
+            sql: 'SELECT contentobject_id, count(*) FROM ezcontentobject_version WHERE status = 1 GROUP BY contentobject_id HAVING COUNT(*) > 1'
+    -
+        Query:
+            name: objects_with_many_states_in_one_group
+            sql: 'SELECT l.contentobject_id, s.group_id, count(*) as count FROM ezcobj_state s, ezcobj_state_link l WHERE l.contentobject_state_id = s.id GROUP BY s.group_id, l.contentobject_id HAVING count(*) > 1'
+    -
+        Query:
+            name: objects_with_wrong_number_of_states_assigned
+            sql: 'SELECT contentobject_id, count(*) as states FROM ezcobj_state_link l GROUP BY l.contentobject_id HAVING count(*) != (SELECT count(*) FROM ezcobj_state_group)'
+    -
+        Query:
+            name: objects_without_languages
+            sql: 'SELECT id FROM ezcontentobject WHERE language_mask = 0'
+    -
+        Query:
+            name: object_versions_without_languages
+            sql: 'SELECT id FROM ezcontentobject_version WHERE language_mask = 0'
+    -
+        Query:
+            name: objects_versions_with_bad_attribute_count
+            sql: 'select * from ( select count(*) as objattributes, contentobject_id, version, language_code, contentclass_id as contentclass_id_o from ezcontentobject_attribute coa, ezcontentobject co where coa.contentobject_id = co.id group by version, contentobject_id, contentclass_id, language_code ) q1, ( select count(*) as classattributes, contentclass_id from ezcontentclass_attribute cca, ezcontentclass cc where cca.contentclass_id = cc.id and cca.version = cc.version and cc.version = 0 group by cc.id, cc.version ) q2 where q1.contentclass_id_o = q2.contentclass_id and q1.objattributes <> q2.classattributes'
+    -
+        Query:
+            name: objects_with_multiple_main_nodes
+            sql: 'SELECT id, COUNT(DISTINCT main_node_id) FROM ezcontentobject o, ezcontentobject_tree n WHERE o.id = n.contentobject_id GROUP BY id, main_node_id HAVING COUNT(DISTINCT main_node_id) > 1'
+    -
+        Query:
+            name: objects_without_a_main_node
+            sql: 'SELECT id FROM ezcontentobject WHERE status = 1 AND id NOT IN (SELECT contentobject_id FROM ezcontentobject_tree WHERE main_node_id = node_id)'
+    -
+        Query:
+            name: objects_multilocated_under_a_node
+            sql: 'SELECT parent_node_id, contentobject_id, COUNT(*) FROM ezcontentobject_tree GROUP BY parent_node_id, contentobject_id HAVING COUNT(*) > 1 ORDER BY parent_node_id, contentobject_id'
+    -
+        Query:
+            name: objects_descendants_of_themselves
+            sql: 'SELECT t1.node_id as node_id_1, t2.node_id as node_id_2, o.id as obj_id FROM ezcontentobject o, ezcontentobject_tree t1, ezcontentobject_tree t2 WHERE o.id = t1.contentobject_id AND o.id = t2.contentobject_id AND t1.node_id != t2.node_id AND t2.path_string like concat(''%/'',t1.node_id,''/_%'')'
+    -
+        Query:
+            name: children_of_non_container_parents
+            sql: 'SELECT pclass.id as parent_class, count(*) as children FROM ezcontentobject_tree child, ezcontentobject_tree parent, ezcontentobject pobj, ezcontentclass pclass WHERE (pclass.is_container != 1 or pclass.is_container is null) AND child.parent_node_id = parent.node_id AND parent.contentobject_id = pobj.id AND pobj.contentclass_id = pclass.id GROUP BY pclass.id ORDER BY pclass.id'
+    -
+        Query:
+            name: related_nodes_with_different_objects
+            sql: 'SELECT main_node_id, COUNT(DISTINCT contentobject_id) FROM ezcontentobject_tree GROUP BY main_node_id HAVING COUNT(DISTINCT contentobject_id) > 1'
+    -
+        Query:
+            name: visible_but_hidden_nodes
+            sql: 'SELECT node_id, is_hidden, is_invisible FROM ezcontentobject_tree WHERE is_hidden=1 AND is_invisible=0'
+    -
+        Query:
+            name: nodes_with_wrong_path
+            sql: 'SELECT c.node_id, c.path_string, p.path_string as parent_path_string FROM ezcontentobject_tree c, ezcontentobject_tree p WHERE c.parent_node_id = p.node_id AND c.path_string NOT REGEXP CONCAT(''^'', p.path_string, c.node_id, ''/$'') AND c.node_id <> 1'
+    -
+        Query:
+            name: nodes_with_wrong_depth
+            sql: 'SELECT c.node_id FROM ezcontentobject_tree c, ezcontentobject_tree p WHERE c.parent_node_id = p.node_id AND c.depth != ( p.depth + 1 ) AND c.node_id != 1'
+    -
+        Query:
+            name: urlaliases_without_nodes
+            sql: 'SELECT parent, text_md5, action FROM ezurlalias_ml LEFT JOIN ezcontentobject_tree ON substr(action, 8) = node_id WHERE action_type = ''eznode'' AND is_original = 1 AND node_id is null'
+    -
+        Query:
+            name: nodes_without_urlaliases
+            sql: 'SELECT node_id FROM ezcontentobject_tree LEFT JOIN ezurlalias_ml ON node_id = substr(action, 8) WHERE depth > 0 AND action_type = ''eznode'' AND is_original = 1 AND ezurlalias_ml.id IS NULL'
+    -
+        Query:
+            name: policy_limitations_for_missing_subtrees
+            sql: 'SELECT p.role_id, p.id as policy_id, p.module_name, p.function_name, l.identifier, v.value FROM ezpolicy_limitation_value v JOIN ezpolicy_limitation l ON v.limitation_id = l.id JOIN ezpolicy p ON l.policy_id = p.id LEFT JOIN ezcontentobject_tree n ON v.value = n.path_string WHERE l.identifier = ''Subtree'' AND n.node_id IS NULL ORDER BY p.role_id, p.module_name, p.function_name, p.id, v.value'
+    -
+        Query:
+            name: policy_limitations_for_missing_locations
+            sql: 'SELECT p.role_id, p.id as policy_id, p.module_name, p.function_name, l.identifier, v.value FROM ezpolicy_limitation_value v JOIN ezpolicy_limitation l ON v.limitation_id = l.id JOIN ezpolicy p ON l.policy_id = p.id LEFT JOIN ezcontentobject_tree n ON v.value = n.node_id WHERE l.identifier = ''Node'' AND n.node_id IS NULL ORDER BY p.role_id, p.module_name, p.function_name, p.id, v.value'
+    -
+        Query:
+            name: policy_limitations_for_missing_classes
+            sql: 'SELECT p.role_id, p.id as policy_id, p.module_name, p.function_name, l.identifier, v.value FROM ezpolicy_limitation_value v JOIN ezpolicy_limitation l ON v.limitation_id = l.id JOIN ezpolicy p ON l.policy_id = p.id LEFT JOIN ezcontentclass c ON v.value = c.id WHERE l.identifier IN (''Class'', ''ParentClass'') AND c.id IS NULL ORDER BY p.role_id, p.module_name, p.function_name, p.id, v.value'
+    -
+        Query:
+            name: policy_limitations_for_missing_sections
+            sql: 'SELECT p.role_id, p.id as policy_id, p.module_name, p.function_name, l.identifier, v.value FROM ezpolicy_limitation_value v JOIN ezpolicy_limitation l ON v.limitation_id = l.id JOIN ezpolicy p ON l.policy_id = p.id LEFT JOIN ezsection s ON v.value = s.id WHERE l.identifier IN (''Section'', ''NewSection'') AND s.id IS NULL ORDER BY p.role_id, p.module_name, p.function_name, p.id, v.value'
+    -
+        Query:
+            name: policy_limitations_for_missing_states
+            sql: 'SELECT p.role_id, p.id as policy_id, p.module_name, p.function_name, l.identifier, v.value FROM ezpolicy_limitation_value v JOIN ezpolicy_limitation l ON v.limitation_id = l.id JOIN ezpolicy p ON l.policy_id = p.id LEFT JOIN ezcobj_state s ON v.value = s.id WHERE l.identifier IN (''State'', ''NewState'') AND s.id IS NULL ORDER BY p.role_id, p.module_name, p.function_name, p.id, v.value'
+    -
+        Query:
+            name: ezflow_blocks_with_invalid_zones
+            sql: 'SELECT * FROM ezm_block WHERE zone_id NOT IN ( SELECT DISTINCT( SUBSTRING( a.data_text, LOCATE( ''<zone id="id_'', a.data_text ) +13, 32 ) ) AS existing_zone_id FROM ezcontentobject_attribute a, ezcontentobject_version v WHERE a.version = v.version AND a.contentobject_id = v.contentobject_id AND a.data_type_string = ''ezpage'' )'
+            requires:
+                - {table: ezm_block}
+    -
+        Query:
+            name: leftover_ezflow_blocks
+            sql: 'SELECT * FROM ezm_block WHERE id NOT IN (SELECT DISTINCT(b.id) FROM ezm_block b, ezcontentobject_attribute a WHERE a.data_text like concat(''%'', b.id, ''%'') AND a.contentclassattribute_id IN (SELECT id from ezcontentclass_attribute WHERE data_type_string = ''ezpage''))'
+            requires:
+                - {table: ezm_block}
