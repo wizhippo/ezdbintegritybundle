@@ -2,10 +2,14 @@
 
 namespace TanoConsulting\eZDBIntegrityBundle\Constraints\Database;
 
+use Psr\Log\LoggerInterface;
 use TanoConsulting\DataValidatorBundle\Constraints\DatabaseValidator;
 
 abstract class eZBinaryBaseValidator extends DatabaseValidator
 {
+    /** @var LoggerInterface $output */
+    protected $logger;
+
     /**
      * Checks validity of (content-attached) files
      * @param string $filePath
@@ -40,6 +44,18 @@ abstract class eZBinaryBaseValidator extends DatabaseValidator
         } else {
             /// @todo should we still double backslashes ?
             return str_replace(['_', '%'], [$escape . '_', $escape . '%'], $string);
+        }
+    }
+
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    protected function log($level, $message, array $context = array())
+    {
+        if ($this->logger) {
+            $this->logger->log($level, $message, $context);
         }
     }
 }

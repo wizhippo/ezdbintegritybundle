@@ -8,6 +8,7 @@ use TanoConsulting\DataValidatorBundle\Exception\UnexpectedTypeException;
 class eZMediaValidator extends eZBinaryFileValidator
 {
     protected static $tableName = 'ezmedia';
+    protected static $fileType = 'media';
 
     /**
      * @param Constraint $constraint

@@ -5,6 +5,8 @@ namespace TanoConsulting\eZDBIntegrityBundle\Constraints\Filesystem;
 use Doctrine\DBAL\Connection;
 use eZ\Publish\Core\IO\IOConfigProvider;
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use Psr\Log\LogLevel;
+use Symfony\Component\Console\Output\OutputInterface;
 use TanoConsulting\DataValidatorBundle\Constraint;
 use TanoConsulting\DataValidatorBundle\ConstraintViolation;
 use TanoConsulting\DataValidatorBundle\Context\ExecutionContextInterface;
@@ -41,9 +43,11 @@ class eZBinaryFileAndMediaValidator extends eZBinaryBaseValidator
 
         switch($this->context->getOperatingMode()) {
             case ExecutionContextInterface::MODE_COUNT:
-                $finder = $this->getFinder($constraint);
+                $i = 0;
                 $violationCount = 0;
+                $finder = $this->getFinder($constraint);
                 foreach($finder->in($rootDir) as $file) {
+                    ++$i;
                     $filePath = $file->getPath() . '/' . $file->getFilename();
                     if (!$this->checkFile($filePath, $connection)) {
                         $violationCount++;
@@ -52,20 +56,33 @@ class eZBinaryFileAndMediaValidator extends eZBinaryBaseValidator
                 if ($violationCount) {
                     $this->context->addViolation(new ConstraintViolation($this->getErrorMessage($constraint), $violationCount, $constraint));
                 }
+                $this->log(LogLevel::NOTICE, "Found $i binary and media files files on disk. In the database, found " . $violationCount . " of them missing, " . ($i - $violationCount) . " valid");
                 break;
 
             case ExecutionContextInterface::MODE_FETCH:
-                $finder = $this->getFinder($constraint);
+                $verbose = false;
+                if ($this->logger && $this->logger->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+                    $verbose = true;
+                }
+                $i = 0;
                 $violations = [];
+                $finder = $this->getFinder($constraint);
                 foreach($finder->in($rootDir) as $file) {
+                    ++$i;
                     $filePath = $file->getPath() . '/' . $file->getFilename();
                     if (!$this->checkFile($filePath, $connection)) {
-                        $violations[] = $filePath;
+                        if ($verbose) {
+                            $vdata = array_merge(['file' => $filePath], $this->getFileInfo($filePath));
+                        } else {
+                            $vdata = $filePath;
+                        }
+                        $violations[] = $vdata;
                     }
                 }
                 if ($violations) {
                     $this->context->addViolation(new ConstraintViolation($this->getErrorMessage($constraint), $violations, $constraint));
                 }
+                $this->log(LogLevel::NOTICE, "Found $i binary and media files on disk. In the database, found " . count($violations) . " of them missing, " . ($i - count($violations)) . " valid");
                 break;
 
             case ExecutionContextInterface::MODE_DRY_RUN:

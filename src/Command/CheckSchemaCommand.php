@@ -44,9 +44,16 @@ class CheckSchemaCommand extends ValidateCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /// @todo inject the verbosity of $output into the validator services
-
         return parent::execute($input, $output);
+    }
+
+    protected function setLogger(LoggerInterface $logger)
+    {
+        parent::setLogger($logger);
+
+        $this->container->get('TanoConsulting\eZDBIntegrityBundle\Constraints\Database\eZBinaryFileValidator')->setLogger($logger);
+        $this->container->get('TanoConsulting\eZDBIntegrityBundle\Constraints\Database\eZImageFileValidator')->setLogger($logger);
+        $this->container->get('TanoConsulting\eZDBIntegrityBundle\Constraints\Database\eZMediaValidator')->setLogger($logger);
     }
 
     protected function getValidatorBuilder($input)
