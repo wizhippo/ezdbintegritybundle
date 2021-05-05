@@ -46,22 +46,29 @@ when they are run with the `-v` option.
 Tips
 ----
 
-The best way to troubleshoot "missing images" is to identify only those missing image files which correspond to a currently
-published content version, and which are not auto-generated aliases.
-In the same way, for missing binary files, it is useful to identify only those hich correspond to a currently published
-content version.
-
-This can be achieved by filtering the list of all missing files using the following command:
-
-    php bin/console ezdbintegrity:check:storage --check-db-orphans --display-data -v | grep -v '"v_status":null' | grep -v '"alias":true'
-
-Known issues
-------------
-
 - To avoid excessive memory usage from large queries, when running Symfony in "debug mode", such as commonly for "dev" envs,
-    add the `--no-debug` option to your commands. If possible, use a non-debug Symfony env.
+  add the `--no-debug` option to your commands. If possible, use a non-debug Symfony env.
 
 - If you still get an 'allowed memory size' fatal error, run the commands with `php -d memory_limit=-1`.
+
+- The best way to troubleshoot "missing images" is to identify only those missing image files which correspond to a currently
+  published content version, and which are not auto-generated aliases.
+  In the same way, for missing binary files, it is useful to identify only those hich correspond to a currently published
+  content version.
+
+  This can be achieved by filtering the list of all missing files using the following command:
+
+        php bin/console ezdbintegrity:check:storage --check-db-orphans --display-data -v | grep -v '"v_status":null' | grep -v '"alias":true'
+
+- If you have lots of images and variations, it might be worth pruning all empty directories from the image storage folder
+  from time to time, esp. before executing a backup or if your disk is running out of inodes.
+  A quick one-liner to find all empty subdirectories of the current directory is:
+
+        find . -type d -empty
+
+  and to remove them:
+
+        find . -type d -empty -delete
 
 Still to be done
 ----------------
