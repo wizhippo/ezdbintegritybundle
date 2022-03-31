@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": "^7.3|^8.0",
-        "ezsystems/ezplatform-kernel": "^1.0",
+        "ibexa/core": "^4.0",
         "tanoconsulting/datavalidatorbundle": ">=1.0.0-BETA1"
     },
     "require-dev": {
