@@ -3,7 +3,7 @@
 namespace TanoConsulting\eZDBIntegrityBundle\Constraints\Database;
 
 use Doctrine\DBAL\Connection;
-use Ibexa\Core\IO\IOConfigProvider;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Psr\Log\LogLevel;
 use Symfony\Component\Console\Output\OutputInterface;
 use TanoConsulting\DataValidatorBundle\Constraint;
