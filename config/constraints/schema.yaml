@@ -1612,7 +1612,7 @@ constraints:
     -
         Query:
             name: objects_versions_with_bad_attribute_count
-            sql: 'select * from ( select count(*) as objattributes, contentobject_id, version, language_code, contentclass_id as contentclass_id_o from ezcontentobject_attribute coa, ezcontentobject co where coa.contentobject_id = co.id group by version, contentobject_id, contentclass_id, language_code ) q1, ( select count(*) as classattributes, contentclass_id from ezcontentclass_attribute cca, ezcontentclass cc where cca.contentclass_id = cc.id and cca.version = cc.version and cc.version = 0 group by cc.id, cc.version ) q2 where q1.contentclass_id_o = q2.contentclass_id and q1.objattributes <> q2.classattributes'
+            sql: 'select * from ( select count(*) as objattributes, contentobject_id, version, language_code, contentclass_id as contentclass_id_o from ezcontentobject_attribute coa, ezcontentobject co where coa.contentobject_id = co.id group by version, contentobject_id, contentclass_id, language_code ) q1, ( select count(*) as classattributes, contentclass_id from ezcontentclass_attribute cca, ezcontentclass cc where cca.contentclass_id = cc.id and cca.version = cc.version and cc.version = 0 group by cc.id, cc.version, cca.contentclass_id ) q2 where q1.contentclass_id_o = q2.contentclass_id and q1.objattributes <> q2.classattributes'
     -
         Query:
             name: objects_with_multiple_main_nodes
@@ -1644,7 +1644,7 @@ constraints:
     -
         Query:
             name: nodes_with_wrong_path
-            sql: 'SELECT c.node_id, c.path_string, p.path_string as parent_path_string FROM ezcontentobject_tree c, ezcontentobject_tree p WHERE c.parent_node_id = p.node_id AND c.path_string NOT REGEXP CONCAT(''^'', p.path_string, c.node_id, ''/$'') AND c.node_id <> 1'
+            sql: 'SELECT c.node_id, c.path_string, p.path_string as parent_path_string FROM ezcontentobject_tree c, ezcontentobject_tree p WHERE c.parent_node_id = p.node_id AND c.path_string !~ CONCAT(''^'', p.path_string, c.node_id, ''/$'') AND c.node_id <> 1'
     -
         Query:
             name: nodes_with_wrong_depth
@@ -1652,11 +1652,11 @@ constraints:
     -
         Query:
             name: urlaliases_without_nodes
-            sql: 'SELECT parent, text_md5, action FROM ezurlalias_ml LEFT JOIN ezcontentobject_tree ON substr(action, 8) = node_id WHERE action_type = ''eznode'' AND is_original = 1 AND node_id is null'
+            sql: 'SELECT parent, text_md5, action FROM ezurlalias_ml LEFT JOIN ezcontentobject_tree ON substr(action, 8) = node_id::text WHERE action_type = ''eznode'' AND is_original = 1 AND node_id is null'
     -
         Query:
             name: nodes_without_urlaliases
-            sql: 'SELECT node_id FROM ezcontentobject_tree LEFT JOIN ezurlalias_ml ON node_id = substr(action, 8) WHERE depth > 0 AND action_type = ''eznode'' AND is_original = 1 AND ezurlalias_ml.id IS NULL'
+            sql: 'SELECT node_id FROM ezcontentobject_tree LEFT JOIN ezurlalias_ml ON node_id = substr(action, 8)::int WHERE depth > 0 AND action_type = ''eznode'' AND is_original = 1 AND ezurlalias_ml.id IS NULL'
     -
         Query:
             name: policy_limitations_for_missing_subtrees
@@ -1664,19 +1664,19 @@ constraints:
     -
         Query:
             name: policy_limitations_for_missing_locations
-            sql: 'SELECT p.role_id, p.id as policy_id, p.module_name, p.function_name, l.identifier, v.value FROM ezpolicy_limitation_value v JOIN ezpolicy_limitation l ON v.limitation_id = l.id JOIN ezpolicy p ON l.policy_id = p.id LEFT JOIN ezcontentobject_tree n ON v.value = n.node_id WHERE l.identifier = ''Node'' AND n.node_id IS NULL ORDER BY p.role_id, p.module_name, p.function_name, p.id, v.value'
+            sql: 'SELECT p.role_id, p.id as policy_id, p.module_name, p.function_name, l.identifier, v.value FROM ezpolicy_limitation_value v JOIN ezpolicy_limitation l ON v.limitation_id = l.id JOIN ezpolicy p ON l.policy_id = p.id LEFT JOIN ezcontentobject_tree n ON v.value = n.node_id::text WHERE l.identifier = ''Node'' AND n.node_id IS NULL ORDER BY p.role_id, p.module_name, p.function_name, p.id, v.value'
     -
         Query:
             name: policy_limitations_for_missing_classes
-            sql: 'SELECT p.role_id, p.id as policy_id, p.module_name, p.function_name, l.identifier, v.value FROM ezpolicy_limitation_value v JOIN ezpolicy_limitation l ON v.limitation_id = l.id JOIN ezpolicy p ON l.policy_id = p.id LEFT JOIN ezcontentclass c ON v.value = c.id WHERE l.identifier IN (''Class'', ''ParentClass'') AND c.id IS NULL ORDER BY p.role_id, p.module_name, p.function_name, p.id, v.value'
+            sql: 'SELECT p.role_id, p.id as policy_id, p.module_name, p.function_name, l.identifier, v.value FROM ezpolicy_limitation_value v JOIN ezpolicy_limitation l ON v.limitation_id = l.id JOIN ezpolicy p ON l.policy_id = p.id LEFT JOIN ezcontentclass c ON v.value = c.id::text WHERE l.identifier IN (''Class'', ''ParentClass'') AND c.id IS NULL ORDER BY p.role_id, p.module_name, p.function_name, p.id, v.value'
     -
         Query:
             name: policy_limitations_for_missing_sections
-            sql: 'SELECT p.role_id, p.id as policy_id, p.module_name, p.function_name, l.identifier, v.value FROM ezpolicy_limitation_value v JOIN ezpolicy_limitation l ON v.limitation_id = l.id JOIN ezpolicy p ON l.policy_id = p.id LEFT JOIN ezsection s ON v.value = s.id WHERE l.identifier IN (''Section'', ''NewSection'') AND s.id IS NULL ORDER BY p.role_id, p.module_name, p.function_name, p.id, v.value'
+            sql: 'SELECT p.role_id, p.id as policy_id, p.module_name, p.function_name, l.identifier, v.value FROM ezpolicy_limitation_value v JOIN ezpolicy_limitation l ON v.limitation_id = l.id JOIN ezpolicy p ON l.policy_id = p.id LEFT JOIN ezsection s ON v.value = s.id::text WHERE l.identifier IN (''Section'', ''NewSection'') AND s.id IS NULL ORDER BY p.role_id, p.module_name, p.function_name, p.id, v.value'
     -
         Query:
             name: policy_limitations_for_missing_states
-            sql: 'SELECT p.role_id, p.id as policy_id, p.module_name, p.function_name, l.identifier, v.value FROM ezpolicy_limitation_value v JOIN ezpolicy_limitation l ON v.limitation_id = l.id JOIN ezpolicy p ON l.policy_id = p.id LEFT JOIN ezcobj_state s ON v.value = s.id WHERE l.identifier IN (''State'', ''NewState'') AND s.id IS NULL ORDER BY p.role_id, p.module_name, p.function_name, p.id, v.value'
+            sql: 'SELECT p.role_id, p.id as policy_id, p.module_name, p.function_name, l.identifier, v.value FROM ezpolicy_limitation_value v JOIN ezpolicy_limitation l ON v.limitation_id = l.id JOIN ezpolicy p ON l.policy_id = p.id LEFT JOIN ezcobj_state s ON v.value = s.id::text WHERE l.identifier IN (''State'', ''NewState'') AND s.id IS NULL ORDER BY p.role_id, p.module_name, p.function_name, p.id, v.value'
     -
         Query:
             name: ezflow_blocks_with_invalid_zones
