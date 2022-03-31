@@ -84,7 +84,7 @@ class CheckStorageCommand extends ValidateCommand
 
     protected function getValidationTarget($input)
     {
-        $connection = $this->container->get('ezpublish.persistence.connection');
+        $connection = $this->container->get('ibexa.persistence.connection');
 
         return $connection;
     }
